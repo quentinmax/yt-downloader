@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "name": "YT Downloader",
+  "description": "An easy and fast way to download youtube videos",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Download Video"
+  },
+  "icons": {
+    "16": "logo-red-transparent-16x7.png",
+    "48": "logo-red-transparent-48x22.png",
+    "128": "logo-red-transparent-128x58.png"
+  },
+  "permissions": ["scripting", "tabs", "downloads"],
+  "host_permissions": ["https://*.youtube.com/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["downloads/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
