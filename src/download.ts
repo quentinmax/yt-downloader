@@ -13,7 +13,8 @@ export const handleDownload = async (
 
   try {
     // Call an external API service for downloading the YouTube video
-    const response = await fetch("http://192.168.178.125:5000/download", {
+    const url = process.env.NODE_ENV === "production" ? "http://localhost:5001" : process.env.DEV_API_URL; 
+    const response = await fetch(url +  "/download", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

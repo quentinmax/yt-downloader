@@ -5,7 +5,7 @@ import path from "path";
 import { randomBytes } from "crypto";
 import fs from "fs";
 const app = express();
-const PORT = 5000;
+const PORT = 5001;
 // Enable CORS for the extension
 app.use(cors());
 app.use(express.json());
