@@ -4,16 +4,21 @@ import { VideoData } from "./types/VideoData";
 export const handleDownload = async (
   videoData: VideoData,
   format: Format,
-  setDownloadProgress: Function
+  setDownloadProgress: Function,
+  setDownloading: Function,
+  setError: Function,
 ) => {
   if (!videoData.url) {
     console.error("No video URL available");
+    setError("No video provided.");
     return;
   }
 
   try {
     // Call an external API service for downloading the YouTube video
-    const url = process.env.NODE_ENV === "production" ? "http://localhost:5001" : process.env.DEV_API_URL; 
+    const url = import.meta.env.VITE_API_URL;
+    console.log(url);
+    
     const response = await fetch(url +  "/download", {
       method: "POST",
       headers: {
@@ -25,14 +30,18 @@ export const handleDownload = async (
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Error during download:", errorText);
+      setError("Error during download. Try again later.")
       return;
     }
+
+    setDownloading(true);
 
     const contentLength = response.headers.get("Content-Length"); // Get total file size
     const totalBytes = contentLength ? parseInt(contentLength, 10) : 0;
 
     if (!totalBytes) {
       console.error("Unable to determine file size.");
+      setError("Unable to determine file size.")
       return;
     }
 
@@ -65,5 +74,7 @@ export const handleDownload = async (
     window.URL.revokeObjectURL(downloadUrl);
   } catch (error) {
     console.error("Network error:", error);
+    setError("Network error.");
+    return;
   }
 };

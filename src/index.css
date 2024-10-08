@@ -168,3 +168,7 @@ main > h1 {
   border-radius: 4px;
   transition: width 0.2s;
 }
+
+.error-msg {
+  color: var(--primary)
+}

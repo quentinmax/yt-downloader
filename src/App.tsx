@@ -18,6 +18,7 @@ function App() {
 
   const [format, setFormat] = useState<Format>("best");
   const [downloadProgress, setDownloadProgress] = useState(0);
+  const [error, setError] = useState("");
   const [downloading, setDownloading] = useState(false);
 
   const getYoutubeVideoData = async () => {
@@ -116,13 +117,19 @@ function App() {
             <button
               className="download-btn"
               onClick={() => {
-                setDownloading(true);
-                handleDownload(videoData, format, setDownloadProgress);
+                handleDownload(
+                  videoData,
+                  format,
+                  setDownloadProgress,
+                  setDownloading,
+                  setError
+                );
               }}
             >
               <Download color="white" width={25} height={25} strokeWidth={2} />
               <p>Download</p>
             </button>
+            {error && <p className="error-msg">{error}</p>}
           </>
         ) : (
           <>
