@@ -169,6 +169,26 @@ main > h1 {
   transition: width 0.2s;
 }
 
+.requested-download-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.requested-download-container svg {
+  margin-top: 1rem;
+  animation: rotate 2500ms linear infinite
+}
 .error-msg {
   color: var(--primary)
+}
+@keyframes rotate {
+  from {
+    transform: rotateZ(0deg);
+  }
+
+  to {
+    transform: rotateZ(360deg);
+  }
 }

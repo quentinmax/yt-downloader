@@ -8,8 +8,9 @@ export const handleDownload = async (
   setDownloading: Function,
   setError: Function,
 ) => {
+  
   if (!videoData.url) {
-    console.error("No video URL available");
+    console.error("No video provided.");
     setError("No video provided.");
     return;
   }

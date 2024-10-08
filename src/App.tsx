@@ -1,4 +1,4 @@
-import { Clock, Download, User } from "lucide-react";
+import { Clock, Download, Loader2Icon, User } from "lucide-react";
 import BACKGROUND_IMG from "../public/background-gradient.png";
 import { useEffect, useState } from "react";
 import { VideoData } from "./types/VideoData";
@@ -20,6 +20,7 @@ function App() {
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [error, setError] = useState("");
   const [downloading, setDownloading] = useState(false);
+  const [requestedDownlaod, setRequestedDownload] = useState(false);
 
   const getYoutubeVideoData = async () => {
     let [tab] = await chrome.tabs.query({ active: true });
@@ -71,6 +72,14 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (error) {
+      setRequestedDownload(false);
+      setDownloading(false);
+      setError("");
+    }
+  }, [error]);
+
+  useEffect(() => {
     switch (active) {
       case 0:
         setFormat("best");
@@ -111,12 +120,15 @@ function App() {
         {/* TODO: Add refresh button */}
 
         {/* Download Section */}
-        {!downloading ? (
+
+        {!downloading && !requestedDownlaod ? (
           <>
             <ToggleGroup setValue={setActive} value={active} />
             <button
               className="download-btn"
               onClick={() => {
+                setRequestedDownload(true);
+
                 handleDownload(
                   videoData,
                   format,
@@ -131,6 +143,11 @@ function App() {
             </button>
             {error && <p className="error-msg">{error}</p>}
           </>
+        ) : !downloading && requestedDownlaod ? (
+          <div className="requested-download-container">
+            <Loader2Icon color="var(--primary)" size={30} />
+            <p className="subtitle">Downloading on server... Please wait.</p>
+          </div>
         ) : (
           <>
             <div className="progress-container">
